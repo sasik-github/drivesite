@@ -58,7 +58,7 @@ def list(request):
 			for res in result:
 				http_result.append(res['title'])
 				http_result.append('  <a href=\'https://www.googleapis.com/drive/v2/files/{}\'>Link</a>'.format(str(res['id'])) )
-				http_result.append(str(res['id']))
+				# http_result.append(str(res['id']))
 				# http_result.append(res['webContentLink'])
 				http_result.append('<br/>')
 			page_token = files.get('nextPageToken')
