@@ -1,5 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
+from apiclient import errors
 
 
 
@@ -29,11 +30,7 @@ flow = OAuth2WebServerFlow(CLIENT_ID, CLIENT_SECRET, OAUTH_SCOPE, REDIRECT_URI)
 
 
 def index(request):
-
-	
 	authorize_url = flow.step1_get_authorize_url()
-	# print >> sys.stderr, authorize_url
-
 	return redirect(authorize_url)
 
 
@@ -60,6 +57,9 @@ def list(request):
 			result.extend(files['items'])
 			for res in result:
 				http_result.append(res['title'])
+				http_result.append('  <a href=\'https://www.googleapis.com/drive/v2/files/{}\'>Link</a>'.format(str(res['id'])) )
+				http_result.append(str(res['id']))
+				# http_result.append(res['webContentLink'])
 				http_result.append('<br/>')
 			page_token = files.get('nextPageToken')
 			if not page_token:
@@ -69,6 +69,7 @@ def list(request):
 			break
 
 	return HttpResponse(http_result)
+	# return HttpResponse(result)
 
 
 
